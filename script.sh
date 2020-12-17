@@ -37,7 +37,7 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
                     			if [[ "${distroname}" == "${distro}"  ]]; then 
                         			if [[ "${vmState}" == "VM running" ]]; then
                           			# Install the command invoke extension and run the script to downgrade the needed package
-                           			az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts '${commandToSend}'                   
+                           			az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts "${commandToSend}"                   
                         			fi
                     			fi 
 				done
