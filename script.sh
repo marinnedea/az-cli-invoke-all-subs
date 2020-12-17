@@ -36,7 +36,7 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 					vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
 					if [[ "${vmState}" == "VM running" ]]; then
 						distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
-						echo "--- VM ${vmName} is running ${distro}"
+						echo "--- VM ${vmName} is running ${distroname}"
 						if [[ "${distroname}" == "${distro}"  ]]; then															
 							echo "--- Running the extension on this machine"
 							# Install the command invoke extension and run the script to downgrade the needed package
