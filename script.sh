@@ -36,6 +36,7 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 					vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
 					if [[ "${vmState}" == "VM running" ]]; then
 						distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
+						echo "Running OS on ${vmName} is ${distroname}."
 						if [[ "${distroname}" == "${distro}"  ]]; then
 							echo "--- VM ${vmName} is running ${distro}"								
 							echo "--- Running the extension on this machine"
