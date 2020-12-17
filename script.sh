@@ -1,8 +1,12 @@
 #!/bin/bash
 
-
 # Login to Az Cli
 #az login
+
+# Declare the distribution you want to match. Possible values are "redhat", "centos"
+# For other distributions (you can look for "ubuntu"), you also need to change the command sent through the extension - see line 9
+distro="redhat"
+commandToSend="yum downgrade package_name -y"
 
 # Find all subscriptions:
 for subs in $(az account list -o tsv | awk '{print $3}'); do
@@ -30,13 +34,12 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 				for vmName in ${vmarray}; do										
 					vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
 					distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
-                    if [[ "${distroname}" == "redhat"  ]]; then 
-                        if [[ "${vmState}" == "VM running" ]]; then
-                           # Install the command invoke extension and run the script to downgrade the needed package
-                           az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts 'yum downgrade package_name -y'
-                        #echo "do something";                        
-                        fi
-                    fi 
+                    			if [[ "${distroname}" == "${distro}"  ]]; then 
+                        			if [[ "${vmState}" == "VM running" ]]; then
+                          			# Install the command invoke extension and run the script to downgrade the needed package
+                           			az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts '${commandToSend}'                   
+                        			fi
+                    			fi 
 				done
 			else
 				echo "-- Found no VMs in this Resource Group"
@@ -55,6 +58,5 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 		echo ""
 		echo ""		
 	fi
-done
-	
+done	
 exit 0
