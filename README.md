@@ -43,4 +43,4 @@ The **script.sh** in this repo will do the following:
 
 ### Sample output:
 
-![Sample Output](img/sample_output.png | width=320px)
+<img src="img/sample_output.png" width="320">
