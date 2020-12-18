@@ -11,7 +11,7 @@ The **script.sh** in this repo will do the following:
 
 ## Prerequisites
 
-* You need to run this via AzCli, therefore make sure it is installed on your machine: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli or you can run the script from the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart)
+* You need to run this via AzCli, therefore make sure [AzCli is installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) on your machine or you can run the script from the [Azure Cloud Shell](https://docs.microsoft.com/en-us/azure/cloud-shell/quickstart)
 * The script has a commented `"az login"`  entry, if you are not logged in to you Azure account from the AzCli, make sure to uncomment that line or just run the `az login`  command before launching the script.
 
 ## Usage:
