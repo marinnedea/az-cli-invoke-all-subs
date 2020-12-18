@@ -35,9 +35,9 @@ The **script.sh** in this repo will do the following:
 
 Replace the command with any other command you wish, but make sure it would work on your distribution, e.g.:
 * for RedHat/CentOS/Oracle: 
-
-    commandToSend="yum install httpd -y && systemctl enable httpd && systemctl start httpd && firewall-cmd --zone=public --permanent --add-service=http && firewall-cmd --zone=public --permanent --add-service=https && firewall-cmd --reload "  
-
+````
+commandToSend="yum install httpd -y && systemctl enable httpd && systemctl start httpd && firewall-cmd --zone=public --permanent --add-service=http && firewall-cmd --zone=public --permanent --add-service=https && firewall-cmd --reload "  
+````
 
 
 **Step2:** Once the changes are implemented:
