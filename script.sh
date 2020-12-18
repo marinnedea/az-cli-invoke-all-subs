@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #########################################################################################################
-# Description:  Find Windows Azure Agent version on all VMs in all subscriptions and updates it    	#
+# Description:  Find Linux VMs in all Subscriptions and run script on them    	#
 # Author: 	Marin Nedea										#
 # Created: 	JunDecember 16th, 2020 									#
 # Usage:  	Just run the script with sh (e.g. sh script.sh)  or chmod +x script.sh && ./script.sh   #
