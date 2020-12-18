@@ -29,7 +29,7 @@ The **script.sh** in this repo will do the following:
  * sles
  * oracle
 
-**NOTE:** Technically, you can use the short name for any Linux distrinution deployed in your Azure subscriptions, all lowercase letters.
+**NOTE:** Technically, you can use the short name for any Linux distribution deployed in your Azure subscriptions, all lowercase letters.
 
 **>** Line 9: `commandToSend="date >> /tmp/testing.log"`
 
