@@ -15,7 +15,7 @@
 
 # Declare the distribution you want to match. Possible values are "redhat", "centos"
 # For other distributions (you can look for "ubuntu"), you also need to change the command sent through the extension - see line 9
-distro="centos"
+distros="centos redhat"
 commandToSend="date >> /tmp/testing.log"
 
 # Find all subscriptions:
@@ -38,37 +38,42 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 			for rgName in ${rgarray}; do				
 			echo "- Checking Resource Group: ${rgName}"			
 			# List all VMs for RG $rgName
-			vmarray="$(az vm list -g ${rgName} --query '[].name' -o tsv)"			
+			vmarray="$(az vm list -g ${rgName} --query '[].name' -o tsv)"
 			# check if VM array is empty
-			if [ ! -z "${vmarray}" ]; then											
-				for vmName in ${vmarray}; do	
-					echo "-- Found VM ${vmName}.Checking it..."									
-					vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
-					if [[ "${vmState}" == "VM running" ]]; then
-						distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
-						echo "--- VM ${vmName} is running ${distroname}"
-						if [[ "${distroname}" == "${distro}"  ]]; then															
-							echo "--- Running the extension on this machine"
-							# Install the command invoke extension and run the script
-							az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts "${commandToSend}"				
+				if [ ! -z "${vmarray}" ]; then
+					for vmName in ${vmarray}; do
+						echo "-- Found VM ${vmName}.Checking it..."
+						# Get the VM status (running or stopped/deallocated)
+						vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
+
+						# If VM is running, check the distribution on the VM (this will fail for Windows)
+						if [[ "${vmState}" == "VM running" ]]; then
+							distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
+							# If the distro name is in the list we originaly defined, install our extension
+							if [[ " $distros " =~ .*\ $distroname\ .* ]]; then
+								echo "--- VM ${vmName} is running ${distroname} which is in the distro list: ${distros}."
+								echo "--- Running the extension on this machine"
+								# Install the command invoke extension and run the script
+								az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts "${commandToSend}"
+								echo "DONE"
+							else
+								echo "--- VM ${vmName} is running ${distroname} which is not in the distro list: ${distros}. Skipping"
+							fi
 						else
-							echo "--- VM ${vmName} is not a ${distro} one. Skipping"
+							echo "--- The VM ${vmName} in ${rgName} is ${vmState} state"
+							echo "--- Cannot check OS type. Skipping."
 						fi
-					else
-						echo "--- The VM ${vmName} in ${rgName} is ${vmState} state"
-						echo "--- Cannot check OS type. Skipping."
-					fi
-				done
-			else
-				echo "-- Found no VMs in this Resource Group"
-				echo ""
-				echo ""	
-			fi
+					done
+				else
+					echo "-- Found no VMs in this Resource Group"
+					echo ""
+					echo ""
+				fi
 			done
 		else 
-		 echo "-- Found no Resource Group in this Subscription"
-		 echo ""
-		 echo ""	
+		 	echo "-- Found no Resource Group in this Subscription"
+		 	echo ""
+		 	echo ""	
 		fi
 	else
 		echo "- You do not have the necessary permissions on subscription ${subs}.
