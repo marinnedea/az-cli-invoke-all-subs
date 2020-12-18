@@ -33,8 +33,11 @@ The **script.sh** in this repo will do the following:
 
 **>** Line 9: `commandToSend="date >> /tmp/testing.log"`
 
-**Note** replace the command with any other command you know it should work on your distribution, e.g.:
-`commandToSend="yum install httpd -y"`
+Replace the command with any other command you wish, but make sure it would work on your distribution, e.g.:
+
+`commandToSend="yum install httpd -y && systemctl enable httpd && systemctl start httpd && firewall-cmd --zone=public --permanent --add-service=http && firewall-cmd --zone=public --permanent --add-service=https && firewall-cmd --reload "`  for RedHat/CentOS/Oracle
+
+
 
 **Step2:** Once the changes are implemented:
 * make sure the script is unix compatible: `dos2unix script.sh`
