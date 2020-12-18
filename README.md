@@ -43,4 +43,4 @@ The **script.sh** in this repo will do the following:
 
 ### Sample output:
 
-<img src="../../img/sample_output.png" width="320">
+<img src="https://github.com/marinnedea/az-cli-invoke-all-subs/blob/main/img/sample_output.png" width="320">
