@@ -45,7 +45,6 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 						echo "-- Found VM ${vmName}.Checking it..."
 						# Get the VM status (running or stopped/deallocated)
 						vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
-
 						# If VM is running, check the distribution on the VM (this will fail for Windows)
 						if [[ "${vmState}" == "VM running" ]]; then
 							distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
