@@ -47,3 +47,8 @@ commandToSend="yum install httpd -y && systemctl enable httpd && systemctl start
 ### Sample output:
 
 <img src="https://github.com/marinnedea/az-cli-invoke-all-subs/blob/main/img/sample_output.png" width="320">
+
+
+### To do:
+[*] Add suport for multiple distributions
+[] Add Windows support
