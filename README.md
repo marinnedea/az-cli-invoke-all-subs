@@ -1,4 +1,4 @@
-# AzCli "run-command invoke" parser
+# AzCli "run-command invoke" on all VMs through all subscriptions
 
 The **script.sh** in this repo will do the following:
 
