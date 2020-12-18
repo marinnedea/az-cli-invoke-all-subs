@@ -49,7 +49,7 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 						echo "--- VM ${vmName} is running ${distroname}"
 						if [[ "${distroname}" == "${distro}"  ]]; then															
 							echo "--- Running the extension on this machine"
-							# Install the command invoke extension and run the script to downgrade the needed package
+							# Install the command invoke extension and run the script
 							az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts "${commandToSend}"				
 						else
 							echo "--- VM ${vmName} is not a ${distro} one. Skipping"
