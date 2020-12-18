@@ -2,8 +2,8 @@
 
 #########################################################################################################
 # Description:  Find Windows Azure Agent version on all VMs in all subscriptions and updates it    	#
-# Author: 	Marin Nedea											#
-# Created: 	JunDecember 16th, 2020 							#
+# Author: 	Marin Nedea										#
+# Created: 	JunDecember 16th, 2020 									#
 # Usage:  	Just run the script with sh (e.g. sh script.sh)  or chmod +x script.sh && ./script.sh   #
 # Requires:	AzCli 2.0 installed on the machine you're running this script on			#
 # 		https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest	#
