@@ -50,5 +50,5 @@ commandToSend="yum install httpd -y && systemctl enable httpd && systemctl start
 
 
 ### To do:
-[*] Add suport for multiple distributions
-[] Add Windows support
+- [x] Add suport for multiple distributions
+- [ ] Add Windows support
