@@ -20,7 +20,7 @@ The **script.sh** in this repo will do the following:
 `wget https://raw.githubusercontent.com/marinnedea/az-cli-invoke-all-subs/main/script.sh`
 2. Modify the script according to your needs.
 
-**>** Line 8: `distro="centos"`
+**>** Line 19: `distro="centos redhat"`
 
 #### Available parameters are:
  * centos
@@ -28,10 +28,11 @@ The **script.sh** in this repo will do the following:
  * ubuntu
  * sles
  * oracle
+ * barracuda
 
 **NOTE:** Technically, you can use the short name for any Linux distribution deployed in your Azure subscriptions, all lowercase letters.
 
-**>** Line 9: `commandToSend="date >> /tmp/testing.log"`
+**>** Line 20: `commandToSend="date >> /tmp/testing.log"`
 
 Replace the command with any other command you wish, but make sure it would work on your distribution, e.g.(for RedHat/CentOS/Oracle): 
 ````

@@ -13,13 +13,15 @@
 # Login to Az Cli
 #az login
 
-# Declare the distribution you want to match. Possible values are "redhat", "centos"
-# For other distributions (you can look for "ubuntu"), you also need to change the command sent through the extension - see line 9
+# Declare the distribution you want to match on line 19. Possible values are redhat, centos, oracle, sles, barracuda, etc.. etc..
+# For other distributions (you can look for "ubuntu"), you just need to change the command sent through the 
+# extension - see line 20 and make ure is working on the ditribution you are targeting.
 distros="centos redhat"
 commandToSend="date >> /tmp/testing.log"
 
 # Find all subscriptions:
 for subs in $(az account list -o tsv | awk '{print $3}'); do
+
 	# Find current logged in username 
 	username=$(az account show --query user.name --output tsv)
 	
@@ -31,27 +33,34 @@ for subs in $(az account list -o tsv | awk '{print $3}'); do
 	# Info: https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-list-cli#list-role-assignments-for-a-user
 	# If user has permissions, the script will continue, else will skip this subscription and show a message on the screen.
 	if az role assignment list --all --assignee ${username} --query [].roleDefinitionName  > /dev/null 2>&1; then 	
+
 		# List all resource groups in selected subscription
-		rgarray="$(az group list  --query '[].name' -o tsv)"		
+		rgarray="$(az group list  --query '[].name' -o tsv)"	
+
 		#check if array is empty
 		if [ ! -z "${rgarray}" ]; then
 			for rgName in ${rgarray}; do				
-			echo "- Checking Resource Group: ${rgName}"			
+			echo "- Checking Resource Group: ${rgName}"	
+
 			# List all VMs for RG $rgName
 			vmarray="$(az vm list -g ${rgName} --query '[].name' -o tsv)"
 			# check if VM array is empty
 				if [ ! -z "${vmarray}" ]; then
 					for vmName in ${vmarray}; do
 						echo "-- Found VM ${vmName}.Checking it..."
+
 						# Get the VM status (running or stopped/deallocated)
 						vmState=$(az vm show -g ${rgName} -n ${vmName} -d --query powerState -o tsv);
+
 						# If VM is running, check the distribution on the VM (this will fail for Windows)
 						if [[ "${vmState}" == "VM running" ]]; then
 							distroname=$(az vm  get-instance-view  --resource-group ${rgName} --name ${vmName} --query instanceView -o table | tail -1 | awk '{print $2}');
+							
 							# If the distro name is in the list we originaly defined, install our extension
 							if [[ " $distros " =~ .*\ $distroname\ .* ]]; then
 								echo "--- VM ${vmName} is running ${distroname} which is in the distro list: ${distros}."
 								echo "--- Running the extension on this machine"
+								
 								# Install the command invoke extension and run the script
 								az vm run-command invoke --verbose -g ${rgName} -n ${vmName} --command-id RunShellScript --scripts "${commandToSend}"
 								echo "DONE"
