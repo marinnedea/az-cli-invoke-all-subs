@@ -43,4 +43,4 @@ The **script.sh** in this repo will do the following:
 
 ### Sample output:
 
-![Sample Output](img/sample_output.png | max-width: 50%;)
+![Sample Output](img/sample_output.png | max-width: 50%)
